@@ -1,241 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GlowSkin 🌿</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowSkin 🌿</title>
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f7fff9;
-    text-align: center;
-}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f7fff9;
+            text-align: center;
+        }
 
-header {
-    background: #2ecc71;
-    color: white;
-    padding: 20px;
-}
+        header {
+            background: #2ecc71;
+            color: white;
+            padding: 20px;
+        }
 
-nav {
-    background: #27ae60;
-    padding: 10px;
-}
+        nav {
+            background: #27ae60;
+            padding: 10px;
+        }
 
-nav button {
-    margin: 5px;
-    padding: 10px 18px;
-    border: none;
-    background: white;
-    color: #27ae60;
-    cursor: pointer;
-    border-radius: 6px;
-    font-weight: bold;
-}
+        nav button {
+            margin: 5px;
+            padding: 10px 18px;
+            border: none;
+            background: white;
+            color: #27ae60;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: bold;
+        }
 
-nav button:hover {
-    background: #ecfdf5;
-}
+        nav button:hover {
+            background: #ecfdf5;
+        }
 
-section {
-    display: none;
-    padding: 30px;
-}
+        section {
+            display: none;
+            padding: 30px;
+        }
 
-.active {
-    display: block;
-}
+        .active {
+            display: block;
+        }
 
-input {
-    padding: 10px;
-    width: 250px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
+        input {
+            padding: 10px;
+            width: 250px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
 
-button.action {
-    padding: 10px 18px;
-    background: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        button.action {
+            padding: 10px 18px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-.card {
-    background: white;
-    padding: 20px;
-    margin: 20px auto;
-    width: 320px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-</style>
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 320px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
-<body>
+    <header>
+        <h1>GlowSkin 🌿</h1>
+        <p>Know what goes on your skin</p>
+    </header>
 
-<header>
-    <h1>GlowSkin 🌿</h1>
-    <p>Know what goes on your skin</p>
-</header>
+    <nav>
+        <button onclick="showSection('search')">Search</button>
+        <button onclick="showSection('browse')">Browse</button>
+        <button onclick="showSection('system')">Skin System</button>
+    </nav>
 
-<nav>
-    <button onclick="showSection('search')">Search</button>
-    <button onclick="showSection('browse')">Browse</button>
-    <button onclick="showSection('system')">Skin System</button>
-</nav>
+    <!-- SEARCH SECTION -->
+    <section id="search" class="active">
+        <h2>Search Ingredient</h2>
+        <input type="text" id="searchBox" placeholder="Enter ingredient name">
+        <button class="action" onclick="searchIngredient()">Search</button>
+        <div id="searchResult"></div>
+    </section>
 
-<!-- SEARCH SECTION -->
-<section id="search" class="active">
-    <h2>Search Ingredient</h2>
-    <input type="text" id="searchBox" placeholder="Enter ingredient name">
-    <button class="action" onclick="searchIngredient()">Search</button>
-    <div id="searchResult"></div>
-</section>
+    <!-- BROWSE SECTION -->
+    <section id="browse">
+        <h2>Browse Ingredients</h2>
+        <div id="browseList"></div>
+    </section>
 
-<!-- BROWSE SECTION -->
-<section id="browse">
-    <h2>Browse Ingredients</h2>
-    <div id="browseList"></div>
-</section>
+    <!-- SYSTEM SECTION -->
+    <section id="system">
+        <h2>Select Skin Goal</h2>
 
-<!-- SYSTEM SECTION -->
-<section id="system">
-    <h2>Select Skin Goal</h2>
+        <button class="action" onclick="selectBenefit('Hydration')">Hydration</button>
+        <button class="action" onclick="selectBenefit('Anti-aging')">Anti-aging</button>
+        <button class="action" onclick="selectBenefit('Brightening')">Brightening</button>
+        <button class="action" onclick="selectBenefit('Soothing')">Soothing</button>
 
-    <button class="action" onclick="selectBenefit('Hydration')">Hydration</button>
-    <button class="action" onclick="selectBenefit('Anti-aging')">Anti-aging</button>
-    <button class="action" onclick="selectBenefit('Brightening')">Brightening</button>
-    <button class="action" onclick="selectBenefit('Soothing')">Soothing</button>
+        <div id="systemResult"></div>
+    </section>
 
-    <div id="systemResult"></div>
-</section>
+    <script>
 
-<script>
+        /* ================= DATABASE ================= */
 
-/* ================= DATABASE ================= */
-
-const ingredients = [
-{
-    name: "Hyaluronic Acid",
-    benefits: ["Hydration"],
-    description: "Deep hydration ingredient",
-    safe: ["sensitive", "children", "pregnant"]
-},
-{
-    name: "Retinol",
-    benefits: ["Anti-aging"],
-    description: "Vitamin A derivative that boosts collagen",
-    safe: []
-},
-{
-    name: "Vitamin C",
-    benefits: ["Brightening", "Anti-aging"],
-    description: "Antioxidant that improves glow",
-    safe: ["pregnant"]
-},
-{
-    name: "Aloe Vera",
-    benefits: ["Soothing", "Hydration"],
-    description: "Natural calming plant extract",
-    safe: ["sensitive", "children", "pregnant"]
-}
-];
+        const ingredients = [
+            {
+                name: "Hyaluronic Acid",
+                benefits: ["Hydration"],
+                description: "Deep hydration ingredient",
+                safe: ["sensitive", "children", "pregnant"]
+            },
+            {
+                name: "Retinol",
+                benefits: ["Anti-aging"],
+                description: "Vitamin A derivative that boosts collagen",
+                safe: []
+            },
+            {
+                name: "Vitamin C",
+                benefits: ["Brightening", "Anti-aging"],
+                description: "Antioxidant that improves glow",
+                safe: ["pregnant"]
+            },
+            {
+                name: "Aloe Vera",
+                benefits: ["Soothing", "Hydration"],
+                description: "Natural calming plant extract",
+                safe: ["sensitive", "children", "pregnant"]
+            }
+        ];
 
 
-/* ================= NAVIGATION ================= */
+        /* ================= NAVIGATION ================= */
 
-function showSection(id) {
-    document.querySelectorAll("section").forEach(sec => {
-        sec.classList.remove("active");
-    });
-    document.getElementById(id).classList.add("active");
-}
+        function showSection(id) {
+            document.querySelectorAll("section").forEach(sec => {
+                sec.classList.remove("active");
+            });
+            document.getElementById(id).classList.add("active");
+        }
 
 
-/* ================= SEARCH FUNCTION ================= */
+        /* ================= SEARCH FUNCTION ================= */
 
-function searchIngredient() {
-    const input = document.getElementById("searchBox").value.toLowerCase();
-    const result = ingredients.find(item =>
-        item.name.toLowerCase() === input
-    );
+        function searchIngredient() {
+            const input = document.getElementById("searchBox").value.toLowerCase();
+            const result = ingredients.find(item =>
+                item.name.toLowerCase() === input
+            );
 
-    const resultDiv = document.getElementById("searchResult");
+            const resultDiv = document.getElementById("searchResult");
 
-    if (result) {
-        resultDiv.innerHTML = `
+            if (result) {
+                resultDiv.innerHTML = `
             <div class="card">
                 <h3>${result.name}</h3>
                 <p>${result.description}</p>
                 <p><b>Benefits:</b> ${result.benefits.join(", ")}</p>
             </div>
         `;
-    } else {
-        resultDiv.innerHTML = `
+            } else {
+                resultDiv.innerHTML = `
             <div class="card">
                 ❌ Ingredient not found
             </div>
         `;
-    }
-}
+            }
+        }
 
 
-/* ================= BROWSE AUTO LOAD ================= */
+        /* ================= BROWSE AUTO LOAD ================= */
 
-function loadBrowse() {
-    const browseDiv = document.getElementById("browseList");
-    browseDiv.innerHTML = "";
+        function loadBrowse() {
+            const browseDiv = document.getElementById("browseList");
+            browseDiv.innerHTML = "";
 
-    ingredients.forEach(item => {
-        browseDiv.innerHTML += `
+            ingredients.forEach(item => {
+                browseDiv.innerHTML += `
             <div class="card">
                 <h3>${item.name}</h3>
                 <p>${item.description}</p>
             </div>
         `;
-    });
-}
+            });
+        }
 
-loadBrowse();
+        loadBrowse();
 
 
-/* ================= SKIN SYSTEM ================= */
+        /* ================= SKIN SYSTEM ================= */
 
-function selectBenefit(type) {
-    const filtered = ingredients.filter(item =>
-        item.benefits.includes(type)
-    );
+        function selectBenefit(type) {
+            const filtered = ingredients.filter(item =>
+                item.benefits.includes(type)
+            );
 
-    const resultDiv = document.getElementById("systemResult");
+            const resultDiv = document.getElementById("systemResult");
 
-    if (filtered.length === 0) {
-        resultDiv.innerHTML = `
+            if (filtered.length === 0) {
+                resultDiv.innerHTML = `
             <div class="card">
                 No ingredients found for ${type}
             </div>
         `;
-        return;
-    }
+                return;
+            }
 
-    let html = `
+            let html = `
         <div class="card">
             <h3>Best Ingredients for ${type}</h3>
     `;
 
-    filtered.forEach(item => {
-        html += `${item.name}<br>`;
-    });
+            filtered.forEach(item => {
+                html += `${item.name}<br>`;
+            });
 
-    html += `</div>`;
+            html += `</div>`;
 
-    resultDiv.innerHTML = html;
-}
+            resultDiv.innerHTML = html;
+        }
 
-</script>
+    </script>
 
 </body>
+
 </html>
